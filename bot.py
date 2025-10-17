@@ -64,19 +64,6 @@ from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Dict, Any
 
-# Load environment variables from a .env file if present.  This allows
-# sensitive information (bot token, admin ID, API keys) to be stored
-# separately from the source code.  The python‑dotenv package reads
-# variables defined in a .env file and populates os.environ.  If the
-# package is not available (e.g. in some deployment environments), the
-# call will have no effect.
-try:
-    from dotenv import load_dotenv
-    load_dotenv()
-except Exception:
-    # dotenv is optional; if it's not installed, silently continue.
-    pass
-
 from aiogram import Bot, Dispatcher, types
 from aiogram.types import (
     InputFile,
@@ -122,30 +109,14 @@ __all__ = [
 # ───────────────────────────────────────────────────────────────────────────────
 # Configuration
 
-# Bot token.  The bot token must be provided via the ``BOT_TOKEN``
-# environment variable.  We no longer embed the token directly in
-# source code.  If the variable is not set, the bot will refuse to
-# start.  Use a .env file or set the variable in your hosting
-# environment to provide the token.
-BOT_TOKEN: str | None = os.getenv("BOT_TOKEN")
-if not BOT_TOKEN:
-    raise RuntimeError(
-        "BOT_TOKEN environment variable must be set. Define it in your .env file or hosting environment."
-    )
+# Bot token.  Set the BOT_TOKEN environment variable to override.
+BOT_TOKEN: str = os.getenv(
+    "BOT_TOKEN", "8286240779:AAH-UIn8YotV0nATUjqfFUbRyG6MgDw5R9I"
+)
 
 # Administrator's Telegram user ID.  The admin has unlimited usage and
-# access to management commands.  This value must be provided via
-# ``ADMIN_ID`` environment variable.  It is converted to int.  If
-# undefined or invalid, the bot will refuse to start.
-ADMIN_ID_ENV = os.getenv("ADMIN_ID")
-if not ADMIN_ID_ENV:
-    raise RuntimeError(
-        "ADMIN_ID environment variable must be set. Define it in your .env file or hosting environment."
-    )
-try:
-    ADMIN_ID: int = int(ADMIN_ID_ENV)
-except Exception:
-    raise RuntimeError("ADMIN_ID must be an integer")
+# access to management commands.
+ADMIN_ID: int = 1082828397
 
 # Number of free conversions each user receives before a subscription is
 # required.  The admin is exempt.
